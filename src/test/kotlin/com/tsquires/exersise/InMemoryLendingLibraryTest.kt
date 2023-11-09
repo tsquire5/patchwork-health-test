@@ -113,6 +113,19 @@ class InMemoryLendingLibraryTest {
         assertThrows(AllAvailableBooksAlreadyLentException::class.java) { lendingLibrary.borrowBook(ISBN.fromString("9781784705909")) }
     }
 
+    @Test
+    fun `when no books lent lent count is zero`() {
+        val lendingLibrary = getTestLibrary()
+        assertEquals(0, lendingLibrary.lentBookCount())
+    }
+
+    @Test
+    fun `when book lent then lent count incremented`() {
+        val lendingLibrary = getTestLibrary()
+        lendingLibrary.borrowBook(ISBN.fromString("9780552167574"))
+        assertEquals(1, lendingLibrary.lentBookCount())
+    }
+
     private fun getTestLibrary(): LendingLibrary {
         return InMemoryLendingLibrary(
             listOf(
